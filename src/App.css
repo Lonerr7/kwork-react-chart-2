@@ -1,0 +1,50 @@
+.App {
+  max-width: 610px;
+  height: 350px;
+  padding-top: 24px;
+  margin: 0 auto;
+  /* border: 1px solid silver; */
+}
+
+.select__control {
+  width: 90px !important;
+  height: 39px !important;
+  border-radius: 8px !important;
+  background-color: #f0f1f4 !important;
+  border: none !important;
+  margin-right: 2px !important;
+  /* position: absolute !important;
+  top: 0 !important;
+  right: 0 !important; */
+  cursor: pointer !important;
+}
+
+.select__value-container {
+  padding-inline: 2px !important;
+}
+
+.select__indicator-separator {
+  display: none !important;
+}
+
+.select__dropdown-indicator {
+  padding: 0 !important;
+}
+
+.select__currencyBox {
+  display: flex;
+  align-items: center;
+}
+
+.select__menu {
+  /* width: 300px !important; */
+  cursor: pointer !important;
+}
+
+.select__option {
+  cursor: pointer !important;
+}
+
+.select__optionText {
+  margin-right: 10px;
+}
