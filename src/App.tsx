@@ -16,6 +16,9 @@ function App() {
   const isFetching = useConverter((state) => state.isFetching);
   const currentData = useConverter((state) => state.currentData);
 
+  console.log(`currentDataStateInAppComponent`);
+  console.log(currentData);
+
   useEffect(() => {
     fetchDataByCurrency(
       selectedOption.value === SelectValues.BYN ? 'byn' : 'rub'

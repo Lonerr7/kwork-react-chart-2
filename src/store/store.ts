@@ -533,34 +533,36 @@ export const useConverter = create<ConverterState>()(
 
         try {
           const data = await api.getDataByCurrency(currency);
-          console.log('data from server');
-          console.log(data.data);
-
           if (currency === 'rub') {
+            const transformedDataArray = [
+              {
+                ...data.data.AliExpress,
+                color: '#E5352F',
+              },
+              {
+                color: '#F3973E',
+                ...data.data['ЦБ РФ'],
+              },
+            ];
             set({
-              currentData: [
-                {
-                  ...data.data.AliExpress,
-                  color: '#E5352F',
-                },
-                {
-                  color: '#F3973E',
-                  ...data.data['ЦБ РФ'],
-                },
-              ],
+              currentData: transformedDataArray,
+              // dataToRUB: transformedDataArray,
             });
           } else {
+            const transformedDataArray = [
+              {
+                ...data.data.AliExpress,
+                color: '#E5352F',
+              },
+              {
+                color: '#F3973E',
+                ...data.data['НБ РБ'],
+              },
+            ];
+
             set({
-              currentData: [
-                {
-                  ...data.data.AliExpress,
-                  color: '#E5352F',
-                },
-                {
-                  color: '#F3973E',
-                  ...data.data['НБ РБ'],
-                },
-              ],
+              currentData: transformedDataArray,
+              // dataToBYN: transformedDataArray,
             });
           }
         } catch (error) {
