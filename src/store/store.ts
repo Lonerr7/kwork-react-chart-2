@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { ConverterState, SelectOption, SelectValues } from '../types/types';
 import rubIcon from '../images/RUB 1.svg';
 import { api } from '../api/api';
+import { transformResponseData } from '../utils/transformResponseData';
 
 export const useConverter = create<ConverterState>()(
   persist(
@@ -533,32 +534,22 @@ export const useConverter = create<ConverterState>()(
 
         try {
           const data = await api.getDataByCurrency(currency);
+
           if (currency === 'rub') {
-            const transformedDataArray = [
-              {
-                ...data.data.AliExpress,
-                color: '#E5352F',
-              },
-              {
-                color: '#F3973E',
-                ...data.data['ЦБ РФ'],
-              },
-            ];
+            const transformedDataArray = transformResponseData(
+              'rub',
+              data.data
+            );
+
             set({
               currentData: transformedDataArray,
               // dataToRUB: transformedDataArray,
             });
           } else {
-            const transformedDataArray = [
-              {
-                ...data.data.AliExpress,
-                color: '#E5352F',
-              },
-              {
-                color: '#F3973E',
-                ...data.data['НБ РБ'],
-              },
-            ];
+            const transformedDataArray = transformResponseData(
+              'byn',
+              data.data
+            );
 
             set({
               currentData: transformedDataArray,
