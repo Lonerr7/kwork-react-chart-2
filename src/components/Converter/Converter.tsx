@@ -27,7 +27,6 @@ const Converter: React.FC<Props> = ({
 }) => {
   // Получаем объекты для дефолтного значения в конвертере
   const todaysDataObj = actualData?.find((obj) => obj.id === 'AliExpress')!;
-  console.log(`actualData`, actualData);
 
   // Получаем дефолтные значения каждой валюты для отображения в конвертере
   const [todaysCurrencyValue, setTodaysCurrencyValue] = useState(

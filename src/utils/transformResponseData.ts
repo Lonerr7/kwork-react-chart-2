@@ -20,22 +20,22 @@ export const transformResponseData = (currency: 'byn' | 'rub', data: any) => {
     slicedCB_RFDataArr.push(...data['ЦБ РФ'].data.slice(-30));
 
     resultArr = [
-      ...resultArr,
       {
         ...data['ЦБ РФ'],
         color: '#F3973E',
         data: slicedCB_RFDataArr,
       },
+      ...resultArr,
     ];
   } else {
     slicedNB_RBDataArr.push(...data['НБ РБ'].data.slice(-30));
     resultArr = [
-      ...resultArr,
       {
         ...data['НБ РБ'],
         color: '#F3973E',
         data: slicedNB_RBDataArr,
       },
+      ...resultArr,
     ];
   }
 
