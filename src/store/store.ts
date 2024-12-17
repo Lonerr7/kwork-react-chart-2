@@ -4,20 +4,21 @@ import { ConverterState, SelectOption, SelectValues } from '../types/types';
 import rubIcon from '../images/RUB 1.svg';
 import { api } from '../api/api';
 import { transformResponseData } from '../utils/transformResponseData';
+import axios from 'axios';
 
 export const useConverter = create<ConverterState>()(
   persist(
     (set, get) => ({
       currentData: null,
-      dataToBYN: null,
       dataToRUB: null,
+      dataToBYN: null,
       selectedOption: {
         value: SelectValues.RUB,
         img: rubIcon,
         label: SelectValues.RUB,
       },
-      isFetching: false,
       isInitialized: false,
+      errMessage: null,
       handleSelectChange: (newValue: SelectOption) => {
         set({
           selectedOption: newValue,
@@ -26,21 +27,15 @@ export const useConverter = create<ConverterState>()(
 
       fetchDataByCurrency: async (currency: 'byn' | 'rub') => {
         // Проверка на наличие кэша - если есть, то сетаем его в актуальные данные, а запрос на сервер не делаем
-        if (currency === 'rub' && get().dataToRUB) {
+        // @ts-ignore
+        if (get()[`dataTo${currency.toUpperCase()}`]) {
           set({
-            currentData: get().dataToRUB,
-          });
-
-          return;
-        } else if (currency === 'byn' && get().dataToBYN) {
-          set({
-            currentData: get().dataToBYN,
+            // @ts-ignore
+            currentData: get()[`dataTo${currency.toUpperCase()}`],
           });
 
           return;
         }
-
-        set({ isFetching: true });
 
         try {
           const data = await api.getDataByCurrency(currency);
@@ -55,11 +50,6 @@ export const useConverter = create<ConverterState>()(
               currentData: transformedDataArray,
               dataToRUB: transformedDataArray,
             });
-
-            // Инициализируем приложения для корректного отображения данных
-            if (!get().isInitialized) {
-              set({ isInitialized: true });
-            }
           } else {
             const transformedDataArray = transformResponseData(
               'byn',
@@ -70,16 +60,19 @@ export const useConverter = create<ConverterState>()(
               currentData: transformedDataArray,
               dataToBYN: transformedDataArray,
             });
+          }
 
-            // Инициализируем приложения для корректного отображения данных
-            if (!get().isInitialized) {
-              set({ isInitialized: true });
-            }
+          // Инициализируем приложения для корректного отображения данных
+          if (!get().isInitialized) {
+            set({ isInitialized: true });
           }
         } catch (error) {
-          console.error(error);
-        } finally {
-          set({ isFetching: false });
+          if (axios.isAxiosError(error)) {
+            set({ errMessage: error.message });
+          } else {
+            set({ errMessage: `Something went wrong!` });
+            console.error(error);
+          }
         }
       },
     }),

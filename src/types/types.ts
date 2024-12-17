@@ -24,8 +24,8 @@ export interface ConverterState {
   dataToBYN: ChartDataObject[] | null;
   selectedOption: SelectOption;
   handleSelectChange: any;
-  isFetching: boolean;
   isInitialized: boolean;
+  errMessage: string | null;
   fetchDataByCurrency: (currency: 'byn' | 'rub') => Promise<any>;
 }
 

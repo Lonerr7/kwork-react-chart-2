@@ -13,7 +13,6 @@ import { cutStringDate } from '../../utils/cutStringDate';
 import { roundNumToTwoDecimals } from '../../utils/roundNumToTwoDecimals';
 
 interface Props {
-  // data: ChartDataObject[];
   selectedOption: SelectOption;
   actualData: ChartDataObject[] | null;
 }
