@@ -14,10 +14,8 @@ function App() {
     (state) => state.fetchDataByCurrency
   );
   const isFetching = useConverter((state) => state.isFetching);
+  const isInitialized = useConverter((state) => state.isInitialized);
   const currentData = useConverter((state) => state.currentData);
-
-  console.log(`currentDataStateInAppComponent`);
-  console.log(currentData);
 
   useEffect(() => {
     fetchDataByCurrency(
@@ -27,15 +25,20 @@ function App() {
 
   return (
     <div className="App">
-      <Converter
-        data={{ toBYN: dataBYN, toRUB: dataRUB }}
-        selectedOption={selectedOption}
-        handleSelectChange={handleSelectChange}
-      />
-      {/* <Graph
+      {isInitialized ? (
+        <>
+          <Converter
+            actualData={currentData}
+            selectedOption={selectedOption}
+            handleSelectChange={handleSelectChange}
+          />
+
+          {/* <Graph
         data={selectedOption.label === SelectValues.BYN ? dataBYN : dataRUB}
         selectedOption={selectedOption}
       /> */}
+        </>
+      ) : null}
     </div>
   );
 }

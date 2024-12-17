@@ -25,6 +25,7 @@ export interface ConverterState {
   selectedOption: SelectOption;
   handleSelectChange: any;
   isFetching: boolean;
+  isInitialized: boolean;
   fetchDataByCurrency: (currency: 'byn' | 'rub') => Promise<any>;
 }
 

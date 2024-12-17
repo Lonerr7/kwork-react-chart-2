@@ -7,7 +7,7 @@ import { transformResponseData } from '../utils/transformResponseData';
 
 export const useConverter = create<ConverterState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       currentData: null,
       dataToRUB: [
         {
@@ -523,12 +523,13 @@ export const useConverter = create<ConverterState>()(
         label: SelectValues.RUB,
       },
       isFetching: false,
-      handleSelectChange: (newValue: SelectOption) =>
-        set(() => {
-          return {
-            selectedOption: newValue,
-          };
-        }),
+      isInitialized: false,
+      handleSelectChange: (newValue: SelectOption) => {
+        set({
+          selectedOption: newValue,
+        });
+      },
+
       fetchDataByCurrency: async (currency: 'byn' | 'rub') => {
         set({ isFetching: true });
 
@@ -545,6 +546,11 @@ export const useConverter = create<ConverterState>()(
               currentData: transformedDataArray,
               // dataToRUB: transformedDataArray,
             });
+
+            // Инициализируем приложения для корректного отображения данных
+            if (!get().isInitialized) {
+              set({ isInitialized: true });
+            }
           } else {
             const transformedDataArray = transformResponseData(
               'byn',
@@ -555,6 +561,11 @@ export const useConverter = create<ConverterState>()(
               currentData: transformedDataArray,
               // dataToBYN: transformedDataArray,
             });
+
+            // Инициализируем приложения для корректного отображения данных
+            if (!get().isInitialized) {
+              set({ isInitialized: true });
+            }
           }
         } catch (error) {
           console.error(error);
