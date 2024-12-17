@@ -9,6 +9,8 @@ export const useConverter = create<ConverterState>()(
   persist(
     (set, get) => ({
       currentData: null,
+      dataToBYN: null,
+      dataToRUB: null,
       selectedOption: {
         value: SelectValues.RUB,
         img: rubIcon,
@@ -23,6 +25,21 @@ export const useConverter = create<ConverterState>()(
       },
 
       fetchDataByCurrency: async (currency: 'byn' | 'rub') => {
+        // Проверка на наличие кэша - если есть, то сетаем его в актуальные данные, а запрос на сервер не делаем
+        if (currency === 'rub' && get().dataToRUB) {
+          set({
+            currentData: get().dataToRUB,
+          });
+
+          return;
+        } else if (currency === 'byn' && get().dataToBYN) {
+          set({
+            currentData: get().dataToBYN,
+          });
+
+          return;
+        }
+
         set({ isFetching: true });
 
         try {
@@ -36,7 +53,7 @@ export const useConverter = create<ConverterState>()(
 
             set({
               currentData: transformedDataArray,
-              // dataToRUB: transformedDataArray,
+              dataToRUB: transformedDataArray,
             });
 
             // Инициализируем приложения для корректного отображения данных
@@ -51,7 +68,7 @@ export const useConverter = create<ConverterState>()(
 
             set({
               currentData: transformedDataArray,
-              // dataToBYN: transformedDataArray,
+              dataToBYN: transformedDataArray,
             });
 
             // Инициализируем приложения для корректного отображения данных

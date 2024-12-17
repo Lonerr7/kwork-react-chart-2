@@ -20,8 +20,8 @@ export interface ChartDataObject {
 
 export interface ConverterState {
   currentData: ChartDataObject[] | null;
-  // dataToRUB: ChartDataObject[];
-  // dataToBYN: ChartDataObject[];
+  dataToRUB: ChartDataObject[] | null;
+  dataToBYN: ChartDataObject[] | null;
   selectedOption: SelectOption;
   handleSelectChange: any;
   isFetching: boolean;
