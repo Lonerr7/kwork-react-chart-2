@@ -7,6 +7,7 @@ import rubIcon from '../../images/RUB 1.svg';
 import bynIcon from '../../images/BYN 1.svg';
 import equalsIcon from '../../images/equals.svg';
 import { selectTodaysObject } from '../../utils/selectTodaysObj';
+import { roundNumToTwoDecimals } from '../../utils/roundNumToTwoDecimals';
 
 const currencyOptions: any = [
   { label: SelectValues.RUB, value: SelectValues.RUB, img: rubIcon },
@@ -86,7 +87,9 @@ const Converter: React.FC<Props> = ({
 
       <div className={s.converter__box}>
         <div className={s.converter__boxInner}>
-          <span className={s.converter__value}>{todaysCurrencyValue}</span>
+          <span className={s.converter__value}>
+            {roundNumToTwoDecimals(todaysCurrencyValue)}
+          </span>
 
           <Select
             classNamePrefix="select"

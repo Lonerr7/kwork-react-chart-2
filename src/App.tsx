@@ -6,8 +6,8 @@ import { useConverter } from './store/store';
 import { SelectValues } from './types/types';
 
 function App() {
-  const dataRUB = useConverter((state) => state.dataToRUB);
-  const dataBYN = useConverter((state) => state.dataToBYN);
+  // const dataRUB = useConverter((state) => state.dataToRUB);
+  // const dataBYN = useConverter((state) => state.dataToBYN);
   const selectedOption = useConverter((state) => state.selectedOption);
   const handleSelectChange = useConverter((state) => state.handleSelectChange);
   const fetchDataByCurrency = useConverter(
@@ -33,10 +33,11 @@ function App() {
             handleSelectChange={handleSelectChange}
           />
 
-          {/* <Graph
-        data={selectedOption.label === SelectValues.BYN ? dataBYN : dataRUB}
-        selectedOption={selectedOption}
-      /> */}
+          <Graph
+            // data={selectedOption.label === SelectValues.BYN ? dataBYN : dataRUB}
+            selectedOption={selectedOption}
+            actualData={currentData}
+          />
         </>
       ) : null}
     </div>

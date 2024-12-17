@@ -13,15 +13,15 @@ export interface ChartDataObject {
   id: string;
   color?: string;
   data: {
-    x: Date;
+    x: string;
     y: number;
   }[];
 }
 
 export interface ConverterState {
   currentData: ChartDataObject[] | null;
-  dataToRUB: ChartDataObject[];
-  dataToBYN: ChartDataObject[];
+  // dataToRUB: ChartDataObject[];
+  // dataToBYN: ChartDataObject[];
   selectedOption: SelectOption;
   handleSelectChange: any;
   isFetching: boolean;

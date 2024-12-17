@@ -9,32 +9,32 @@ import s from './Graph.module.css';
 import { selectTodaysObject } from '../../utils/selectTodaysObj';
 import enterShopIcon from '../../images/enter-shop.svg';
 import { formatDateToRuLocale } from '../../utils/formatDateToRuLocale';
+import { cutStringDate } from '../../utils/cutStringDate';
+import { roundNumToTwoDecimals } from '../../utils/roundNumToTwoDecimals';
 
 interface Props {
-  data: ChartDataObject[];
+  // data: ChartDataObject[];
   selectedOption: SelectOption;
+  actualData: ChartDataObject[] | null;
 }
 
-const Graph: React.FC<Props> = ({ data, selectedOption }) => {
-  // const updatedDate = data
-  //   .find((dataObj) => dataObj.id === DataOrigins.ALIEXPRESS)
-  //   ?.data.find((object) => selectTodaysObject(object))
-  //   ?.x.toLocaleDateString('ru-RU', {
-  //     day: 'numeric',
-  //     month: 'numeric',
-  //     year: 'numeric',
-  //   });
+const Graph: React.FC<Props> = ({ selectedOption, actualData }) => {
+  const currentObj = actualData!.find(
+    (dataObj) => dataObj.id === DataOrigins.ALIEXPRESS
+  );
+
+  const updatedDate = currentObj?.data[currentObj?.data.length - 1].x;
 
   // Логика для нахождения минимального числа в массиве -> при смене валюты начало заливки графиков корректно изменится
-  const min1 = Math.min(...data[0].data.map((item) => item.y));
-  const min2 = Math.min(...data[1].data.map((item) => item.y));
+  const min1 = Math.min(...actualData![0].data.map((item) => item.y));
+  const min2 = Math.min(...actualData![1].data.map((item) => item.y));
   const minimal = Math.min(min1, min2);
   const minimalFloored = Math.floor(minimal);
 
   return (
     <div className={s.graph}>
       <ResponsiveLine
-        data={data}
+        data={actualData!}
         enableArea
         areaBaselineValue={minimalFloored}
         defs={[
@@ -53,25 +53,25 @@ const Graph: React.FC<Props> = ({ data, selectedOption }) => {
           { match: '*', id: 'gradientC' },
         ]}
         enableCrosshair={true}
-        // tooltip={(props) => {
-        //   return (
-        //     <div
-        //       className={
-        //         props.point.serieId === DataOrigins.ALIEXPRESS
-        //           ? `${s.graph__tooltip_red}`
-        //           : `${s.graph__tooltip}`
-        //       }
-        //     >
-        //       <span className={s.graph__tooltipText}>
-        //         {formatDateToRuLocale(props.point.data.x as Date)}
-        //       </span>
-        //       <span className={s.graph__tooltipText}>
-        //         1$ = {props.point.data.yFormatted}
-        //         {selectedOption.value === SelectValues.BYN ? ' Br' : ' ₽'}
-        //       </span>
-        //     </div>
-        //   );
-        // }}
+        tooltip={(props) => {
+          return (
+            <div
+              className={
+                props.point.serieId === DataOrigins.ALIEXPRESS
+                  ? `${s.graph__tooltip_red}`
+                  : `${s.graph__tooltip}`
+              }
+            >
+              <span className={s.graph__tooltipText}>
+                {cutStringDate(props.point.data.x as string)}
+              </span>
+              <span className={s.graph__tooltipText}>
+                1$ = {`${roundNumToTwoDecimals(props.point.data.y as number)}`}
+                {selectedOption.value === SelectValues.BYN ? ' Br' : ' ₽'}
+              </span>
+            </div>
+          );
+        }}
         curve="cardinal"
         theme={{
           text: {
@@ -132,9 +132,9 @@ const Graph: React.FC<Props> = ({ data, selectedOption }) => {
           legendOffset: 36,
           legendPosition: 'middle',
           truncateTickAt: 0,
-          // format: function noRefCheck(props) {
-          //   return formatDateToRuLocale(props);
-          // },
+          format: function noRefCheck(props) {
+            return cutStringDate(props);
+          },
         }}
         pointSize={2}
         pointColor={{ theme: 'background' }}
@@ -182,7 +182,7 @@ const Graph: React.FC<Props> = ({ data, selectedOption }) => {
               ? 'Обновлено'
               : 'Абноўлены'}
           </span>
-          {'10.11.2024'}
+          {updatedDate ? updatedDate : ''}
         </p>
         <a
           className={s.graph__link}
