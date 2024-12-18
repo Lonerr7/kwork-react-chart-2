@@ -1,15 +1,9 @@
 import { formatStringDate } from './formatStringDate';
+import { getCurrentMoscowDateAndTime } from './getCurrentMoscowDateAndTime';
 
 export const checkIfDataIsOutdated = (data: any) => {
-  const currentMoscowDateTime = new Date().toLocaleString('ru-RU', {
-    timeZone: 'Europe/Moscow',
-  });
-
-  // Распарсить строку
-  const [currentMoscowDate, currentMoscowTime] =
-    currentMoscowDateTime.split(', ');
-  const formattedCurrentMoscowDate = formatStringDate(currentMoscowDate);
-  console.log(formattedCurrentMoscowDate, currentMoscowTime);
+  const { currentMoscowTime, formattedCurrentMoscowDate } =
+    getCurrentMoscowDateAndTime();
 
   // Получить последнюю дату в массиве данных
   const aliExpressObj = data.data.AliExpress;

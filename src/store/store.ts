@@ -55,7 +55,6 @@ export const useConverter = create<ConverterState>()(
 
           // Сетаем данные в стейт
           const currentCurrencyUpper = currency.toUpperCase();
-
           const transformedDataArray = transformResponseData(
             currency,
             data.data,
