@@ -11,7 +11,6 @@ import usdIcon from '../../images/USD 1.svg';
 import rubIcon from '../../images/RUB 1.svg';
 import bynIcon from '../../images/BYN 1.svg';
 import equalsIcon from '../../images/equals.svg';
-import { selectTodaysObject } from '../../utils/selectTodaysObj';
 import { roundNumToTwoDecimals } from '../../utils/roundNumToTwoDecimals';
 import { getDataObjectById } from '../../utils/getDataObjectById';
 
@@ -33,7 +32,6 @@ const Converter: React.FC<Props> = ({
   handleSelectChange,
   isDataOutdated,
 }) => {
-  console.log(`rerender`);
   // Получаем объекты для дефолтного значения в конвертере
   const todaysDataObj = getDataObjectById(actualData!, DataOrigins.ALIEXPRESS)!;
 

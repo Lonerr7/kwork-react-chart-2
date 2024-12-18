@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import {
   ConverterState,
-  DataOrigins,
+
   SelectOption,
   SelectValues,
 } from '../types/types';
@@ -10,7 +10,6 @@ import rubIcon from '../images/RUB 1.svg';
 import { api } from '../api/api';
 import { transformResponseData } from '../utils/transformResponseData';
 import axios from 'axios';
-import { formatStringDate } from '../utils/formatStringDate';
 import { checkIfDataIsOutdated } from '../utils/checkIfDataIsOutdated';
 
 export const useConverter = create<ConverterState>()(

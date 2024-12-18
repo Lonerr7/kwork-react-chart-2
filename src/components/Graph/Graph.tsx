@@ -6,9 +6,7 @@ import {
   SelectValues,
 } from '../../types/types';
 import s from './Graph.module.css';
-import { selectTodaysObject } from '../../utils/selectTodaysObj';
 import enterShopIcon from '../../images/enter-shop.svg';
-import { formatDateToRuLocale } from '../../utils/formatDateToRuLocale';
 import { cutStringDate } from '../../utils/cutStringDate';
 import { roundNumToTwoDecimals } from '../../utils/roundNumToTwoDecimals';
 
