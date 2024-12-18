@@ -1,11 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import {
-  ConverterState,
-
-  SelectOption,
-  SelectValues,
-} from '../types/types';
+import { ConverterState, SelectOption, SelectValues } from '../types/types';
 import rubIcon from '../images/RUB 1.svg';
 import { api } from '../api/api';
 import { transformResponseData } from '../utils/transformResponseData';

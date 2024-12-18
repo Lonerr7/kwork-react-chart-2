@@ -19,21 +19,21 @@ export const transformResponseData = (
     ? data[conditionalPathToDataObject].data.slice(-29)
     : data[conditionalPathToDataObject].data.slice(-30);
 
-  // 3. Заполнить результирующий массив данными
+  // 3. Заполнить результирующий массив данными. //! ВАЖНО: Объект с данными по AliExpress должен идти вторым по счёту, чтобы в легенде показывался первым (сама библиотека по отрисовке графика так заточена)
   resultArr = [
-    {
-      ...data.AliExpress, // Спредим массив вначале, чтобы просто получить оттуда поле с id
-      color: '#E5352F',
-      data: isOutdated
-        ? [...slicedAliDataArr, { x: currentMoscowDate, y: 0 }]
-        : slicedAliDataArr,
-    },
     {
       ...data[conditionalPathToDataObject], // Спредим массив вначале, чтобы просто получить оттуда поле с id
       color: '#F3973E',
       data: isOutdated
         ? [...slicedOtherDataArr, { x: currentMoscowDate, y: 0 }]
         : slicedOtherDataArr,
+    },
+    {
+      ...data.AliExpress, // Спредим массив вначале, чтобы просто получить оттуда поле с id
+      color: '#E5352F',
+      data: isOutdated
+        ? [...slicedAliDataArr, { x: currentMoscowDate, y: 0 }]
+        : slicedAliDataArr,
     },
   ];
 
