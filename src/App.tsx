@@ -32,11 +32,7 @@ function App() {
             selectedOption={selectedOption}
             handleSelectChange={handleSelectChange}
           />
-
-          <Graph
-            selectedOption={selectedOption}
-            actualData={currentData}
-          />
+          <Graph selectedOption={selectedOption} actualData={currentData} />
         </>
       ) : null}
     </div>
