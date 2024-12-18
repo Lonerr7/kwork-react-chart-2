@@ -15,14 +15,21 @@ import { roundNumToTwoDecimals } from '../../utils/roundNumToTwoDecimals';
 interface Props {
   selectedOption: SelectOption;
   actualData: ChartDataObject[] | null;
+  isDataOutdated: boolean;
 }
 
-const Graph: React.FC<Props> = ({ selectedOption, actualData }) => {
+const Graph: React.FC<Props> = ({
+  selectedOption,
+  actualData,
+  isDataOutdated,
+}) => {
   const currentObj = actualData!.find(
     (dataObj) => dataObj.id === DataOrigins.ALIEXPRESS
   );
 
-  const updatedDate = currentObj?.data[currentObj?.data.length - 1].x;
+  const updatedDate = isDataOutdated
+    ? currentObj?.data[currentObj?.data.length - 2].x
+    : currentObj?.data[currentObj?.data.length - 1].x;
 
   // Логика для нахождения минимального числа в массиве -> при смене валюты начало заливки графиков корректно изменится
   const min1 = Math.min(...actualData![0].data.map((item) => item.y));

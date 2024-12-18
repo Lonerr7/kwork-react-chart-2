@@ -24,19 +24,25 @@ interface Props {
   actualData: ChartDataObject[] | null;
   selectedOption: SelectOption;
   handleSelectChange: any;
+  isDataOutdated: boolean;
 }
 
 const Converter: React.FC<Props> = ({
   actualData,
   selectedOption,
   handleSelectChange,
+  isDataOutdated,
 }) => {
   // Получаем объекты для дефолтного значения в конвертере
   const todaysDataObj = getDataObjectById(actualData!, DataOrigins.ALIEXPRESS)!;
 
-  // Получаем дефолтные значения каждой валюты для отображения в конвертере
+  // Получаем текущее значение валюты для отображения в конвертере
   const [todaysCurrencyValue, setTodaysCurrencyValue] = useState(
-    todaysDataObj.data[todaysDataObj.data.length - 1].y
+    todaysDataObj.data[
+      isDataOutdated
+        ? todaysDataObj.data.length - 2
+        : todaysDataObj.data.length - 1
+    ].y
   );
 
   // Копии сегодняшних валют для того, если пользователь захочет ввести свое значение -> чтобы оно пересчиталось. Если введет 0 - то потом без этих копий не получится считать

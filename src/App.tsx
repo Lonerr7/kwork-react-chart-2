@@ -14,6 +14,7 @@ function App() {
   const isInitialized = useConverter((state) => state.isInitialized);
   const currentData = useConverter((state) => state.currentData);
   const errMessage = useConverter((state) => state.errMessage);
+  const isDataOutdated = useConverter((state) => state.isDataOutdated);
 
   useEffect(() => {
     fetchDataByCurrency(
@@ -31,8 +32,9 @@ function App() {
             actualData={currentData}
             selectedOption={selectedOption}
             handleSelectChange={handleSelectChange}
+            isDataOutdated={isDataOutdated}
           />
-          <Graph selectedOption={selectedOption} actualData={currentData} />
+          <Graph selectedOption={selectedOption} actualData={currentData} isDataOutdated={isDataOutdated} />
         </>
       ) : null}
     </div>
