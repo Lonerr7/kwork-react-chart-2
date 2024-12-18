@@ -1,10 +1,17 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { ConverterState, SelectOption, SelectValues } from '../types/types';
+import {
+  ConverterState,
+  DataOrigins,
+  SelectOption,
+  SelectValues,
+} from '../types/types';
 import rubIcon from '../images/RUB 1.svg';
 import { api } from '../api/api';
 import { transformResponseData } from '../utils/transformResponseData';
 import axios from 'axios';
+import { formatStringDate } from '../utils/formatStringDate';
+import { checkIfDataIsOutdated } from '../utils/checkIfDataIsOutdated';
 
 export const useConverter = create<ConverterState>()(
   persist(
@@ -18,6 +25,7 @@ export const useConverter = create<ConverterState>()(
         label: SelectValues.RUB,
       },
       isInitialized: false,
+      isDataOutdated: false,
       errMessage: null,
       handleSelectChange: (newValue: SelectOption) => {
         set({
@@ -40,27 +48,24 @@ export const useConverter = create<ConverterState>()(
         try {
           const data = await api.getDataByCurrency(currency);
 
-          if (currency === 'rub') {
-            const transformedDataArray = transformResponseData(
-              'rub',
-              data.data
-            );
-
-            set({
-              currentData: transformedDataArray,
-              dataToRUB: transformedDataArray,
-            });
-          } else {
-            const transformedDataArray = transformResponseData(
-              'byn',
-              data.data
-            );
-
-            set({
-              currentData: transformedDataArray,
-              dataToBYN: transformedDataArray,
-            });
+          // Проверка на сбой в работе парсера: если он не впишет новые данные за новый день, ставим флаг isOutdated: true, чтобы потом в функции transformResponseData добавить объекты с нулевыми значениями для вывода их на график
+          if (checkIfDataIsOutdated(data)) {
+            set({ isDataOutdated: true });
           }
+
+          // Сетаем данные в стейт
+          const currentCurrencyUpper = currency.toUpperCase();
+
+          const transformedDataArray = transformResponseData(
+            currency,
+            data.data,
+            get().isDataOutdated
+          );
+
+          set({
+            currentData: transformedDataArray,
+            [`dataTo${currentCurrencyUpper}`]: transformedDataArray,
+          });
 
           // Инициализируем приложения для корректного отображения данных
           if (!get().isInitialized) {

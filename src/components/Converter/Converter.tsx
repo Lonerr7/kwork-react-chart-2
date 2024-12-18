@@ -1,13 +1,19 @@
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import s from './Converter.module.css';
-import { ChartDataObject, SelectOption, SelectValues } from '../../types/types';
+import {
+  ChartDataObject,
+  DataOrigins,
+  SelectOption,
+  SelectValues,
+} from '../../types/types';
 import usdIcon from '../../images/USD 1.svg';
 import rubIcon from '../../images/RUB 1.svg';
 import bynIcon from '../../images/BYN 1.svg';
 import equalsIcon from '../../images/equals.svg';
 import { selectTodaysObject } from '../../utils/selectTodaysObj';
 import { roundNumToTwoDecimals } from '../../utils/roundNumToTwoDecimals';
+import { getDataObjectById } from '../../utils/getDataObjectById';
 
 const currencyOptions: any = [
   { label: SelectValues.RUB, value: SelectValues.RUB, img: rubIcon },
@@ -26,7 +32,7 @@ const Converter: React.FC<Props> = ({
   handleSelectChange,
 }) => {
   // Получаем объекты для дефолтного значения в конвертере
-  const todaysDataObj = actualData?.find((obj) => obj.id === 'AliExpress')!;
+  const todaysDataObj = getDataObjectById(actualData!, DataOrigins.ALIEXPRESS)!;
 
   // Получаем дефолтные значения каждой валюты для отображения в конвертере
   const [todaysCurrencyValue, setTodaysCurrencyValue] = useState(
