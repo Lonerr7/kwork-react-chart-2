@@ -6,15 +6,15 @@ import { useConverter } from './store/store';
 import { SelectValues } from './types/types';
 
 function App() {
-  const selectedOption = useConverter((state) => state.selectedOption);
-  const handleSelectChange = useConverter((state) => state.handleSelectChange);
-  const fetchDataByCurrency = useConverter(
-    (state) => state.fetchDataByCurrency
-  );
-  const isInitialized = useConverter((state) => state.isInitialized);
-  const currentData = useConverter((state) => state.currentData);
-  const errMessage = useConverter((state) => state.errMessage);
-  const isDataOutdated = useConverter((state) => state.isDataOutdated);
+  const {
+    currentData,
+    errMessage,
+    fetchDataByCurrency,
+    handleSelectChange,
+    isInitialized,
+    isDataOutdated,
+    selectedOption,
+  } = useConverter();
 
   useEffect(() => {
     fetchDataByCurrency(
@@ -34,7 +34,11 @@ function App() {
             handleSelectChange={handleSelectChange}
             isDataOutdated={isDataOutdated}
           />
-          <Graph selectedOption={selectedOption} actualData={currentData} isDataOutdated={isDataOutdated} />
+          <Graph
+            selectedOption={selectedOption}
+            actualData={currentData}
+            isDataOutdated={isDataOutdated}
+          />
         </>
       ) : null}
     </div>

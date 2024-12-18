@@ -33,6 +33,7 @@ const Converter: React.FC<Props> = ({
   handleSelectChange,
   isDataOutdated,
 }) => {
+  console.log(`rerender`);
   // Получаем объекты для дефолтного значения в конвертере
   const todaysDataObj = getDataObjectById(actualData!, DataOrigins.ALIEXPRESS)!;
 
